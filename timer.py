@@ -1,6 +1,6 @@
+import platform
 import tkinter as tk
 from tkinter import messagebox
-from player import *
 
 
 class CountdownTimer:
@@ -14,7 +14,7 @@ class CountdownTimer:
         self.master = master
         self.master.overrideredirect(True)  # Remove the title bar for a clean interface
         self.master.title("Countdown Timer")  # Set the window title
-        self.master.geometry("380x180-150+100")  # Set window dimensions and position
+        self.master.geometry("-150+100")  # Set window dimensions and position
         self.master.resizable(False, False)  # Disable window resizing
 
         # Initialize variables for window dragging
@@ -36,24 +36,24 @@ class CountdownTimer:
 
         # Input frame for timer configuration
         self.input_frame = tk.Frame(self.master)  # Container for input widgets
-        self.input_frame.pack(pady=10)  # Add padding around the frame
+        self.input_frame.pack(padx=10, pady=10)  # Add padding around the frame
 
         # Timer input label
-        self.time_input_label = tk.Label(self.input_frame, text="Set Timer (HH:MM:SS)", font=("Helvetica", 12))
+        self.time_input_label = tk.Label(self.input_frame, text="Set Timer (HH:MM:SS)", font=("Helvetica", 10))
         self.time_input_label.grid(row=0, column=0, padx=5)  # Place label in grid layout
 
         # Hour spinbox
-        self.hour_spinbox = tk.Spinbox(self.input_frame, from_=0, to=999, width=5, font=("Helvetica", 12))
-        self.hour_spinbox.grid(row=0, column=1, padx=5)  # Place hour spinbox
+        self.hour_spinbox = tk.Spinbox(self.input_frame, from_=0, to=999, width=5, font=("Helvetica", 10))
+        self.hour_spinbox.grid(row=0, column=1, padx=1)  # Place hour spinbox
 
         # Minute spinbox
-        self.minute_spinbox = tk.Spinbox(self.input_frame, from_=0, to=59, width=3, font=("Helvetica", 12))
-        self.minute_spinbox.grid(row=0, column=2, padx=5)  # Place minute spinbox
+        self.minute_spinbox = tk.Spinbox(self.input_frame, from_=0, to=59, width=3, font=("Helvetica", 10))
+        self.minute_spinbox.grid(row=0, column=2, padx=1)  # Place minute spinbox
 
         # Second spinbox
         self.second_spinbox = tk.Spinbox(
-            self.input_frame, from_=0, to=59, width=3, font=("Helvetica", 12))
-        self.second_spinbox.grid(row=0, column=3, padx=5)  # Place second spinbox
+            self.input_frame, from_=0, to=59, width=3, font=("Helvetica", 10))
+        self.second_spinbox.grid(row=0, column=3, padx=1)  # Place second spinbox
 
         # Add mouse scroll functionality to spinboxes
         self.bind_scroll_to_spinbox(self.hour_spinbox)
@@ -61,37 +61,37 @@ class CountdownTimer:
         self.bind_scroll_to_spinbox(self.second_spinbox)
 
         # Timer display label
-        self.timer_label = tk.Label(self.master, text=self.format_time(0, 0, self.default_time), font=("Helvetica", 30))
+        self.timer_label = tk.Label(self.master, text=self.format_time(0, 0, self.default_time), font=("Helvetica", 32))
         self.timer_label.pack(pady=10)  # Add padding below the timer label
 
         # Button frame for control buttons
         self.button_frame = tk.Frame(self.master)  # Container for control buttons
-        self.button_frame.pack(pady=10)  # Add padding around the button frame
+        self.button_frame.pack(padx=10, pady=10)  # Add padding around the button frame
 
         # Create and place control buttons
         self.set_button = self.create_button("Set", self.set_custom_time)
-        self.set_button.grid(row=0, column=0, padx=5)
+        self.set_button.grid(row=0, column=0, padx=1)
 
         self.start_button = self.create_button("Start", self.start_timer)
-        self.start_button.grid(row=0, column=1, padx=5)
+        self.start_button.grid(row=0, column=1, padx=1)
 
         self.pause_button = self.create_button("Pause", self.pause_timer)
-        self.pause_button.grid(row=0, column=2, padx=5)
+        self.pause_button.grid(row=0, column=2, padx=1)
 
         self.reset_button = self.create_button("Reset", self.reset_timer)
-        self.reset_button.grid(row=0, column=3, padx=5)
+        self.reset_button.grid(row=0, column=3, padx=1)
 
-        self.theme_button = self.create_button("", self.toggle_theme)
-        self.theme_button.grid(row=0, column=4, padx=5)
+        self.theme_button = self.create_button("🎨", self.toggle_theme)
+        self.theme_button.grid(row=0, column=4, padx=1)
 
         # Pin button for toggling "always on top" behavior
-        self.pin_button = self.create_button("", self.toggle_pin)
-        self.pin_button.grid(row=0, column=5, padx=5)
-        self.pin_button.config(bg="lightgray")  # Indicate pinned state with a light color
+        self.pin_button = self.create_button("📌", self.toggle_pin)
+        self.pin_button.grid(row=0, column=5, padx=1)
+        self.pin_button.config(bg="#00cc66")  # Indicate pinned state (active) with a light color
 
         # Exit button to close the application
-        self.exit_button = self.create_button("", lambda: self.master.quit())
-        self.exit_button.grid(row=0, column=6, padx=5)
+        self.exit_button = self.create_button("✖", lambda: self.master.quit())
+        self.exit_button.grid(row=0, column=6, padx=1)
 
         # Initialize theme (default is dark)
         self.current_theme = "dark"
@@ -102,7 +102,7 @@ class CountdownTimer:
         """
         :return: str - Returns the version of the CountdownTimer class.
         """
-        return "v1.0"
+        return "v1.1"
 
     @staticmethod
     def bind_scroll_to_spinbox(spinbox):
@@ -155,7 +155,7 @@ class CountdownTimer:
         :return: The configured Button widget.
         """
         # Create a button with the specified text, font, and command
-        button = tk.Button(self.button_frame, text=text, font=("Helvetica", 14), command=command, relief="flat")
+        button = tk.Button(self.button_frame, text=text, font=("Helvetica", 12), command=command, relief="flat")
 
         # Configure the button's appearance
         button.config(
@@ -219,11 +219,11 @@ class CountdownTimer:
             # Update the label to indicate time is up
             self.timer_label.config(text="Time's Up!")
 
-            # Play the alert sound
-            Player(long_beep).play()
+            # Windows only: winsound and messagebox works on Windows os only
+            if platform.system() == "Windows":
 
-            # Show a popup message to alert the user
-            messagebox.showinfo("Timer Alert", "Time's Up!")
+                # Show a popup message to alert the user
+                messagebox.showinfo("Timer Alert", "Time's Up!")
 
     def start_timer(self):
         """
@@ -353,14 +353,14 @@ class CountdownTimer:
             # Disable always on top behavior
             self.master.wm_attributes("-topmost", 0)
             self.is_pinned = False
-            # Optionally change the button color to indicate unpinned state
-            self.pin_button.config(bg="#555555")
+            # Optionally change the button color to indicate unpinned state (deactivate)
+            self.pin_button.config(bg="#990000")
         else:
             # Enable always on top behavior
             self.master.wm_attributes("-topmost", 1)
             self.is_pinned = True
-            # Change the button color to indicate pinned state
-            self.pin_button.config(bg="lightgray")
+            # Change the button color to indicate pinned state (active)
+            self.pin_button.config(bg="#00cc66")
 
 
 def main():
